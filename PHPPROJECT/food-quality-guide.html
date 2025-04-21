@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Quality Guide | Consumer Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .food-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #7e22ce, #e11d48);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-r from-pink-200 via-rose-300 to-purple-300 min-h-screen w-full">
+    <!-- Navigation -->
+    <nav class="bg-white bg-opacity-80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="consumer-insights.html"><span class="text-xl font-bold gradient-text">Consumer Portal</span></a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="index.php" class="text-gray-700 hover:text-purple-600 transition">Home</a>
+                    <a href="index.php#about" class="text-gray-700 hover:text-purple-600 transition">About</a>
+                    <a href="index.php#services" class="text-gray-700 hover:text-purple-600 transition">Services</a>
+                    <a href="index.php#blog" class="text-gray-700 hover:text-purple-600 transition">Blog</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto text-center">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6 animate__animated animate__fadeInDown">
+                <span class="gradient-text">Food Quality Guide</span>
+            </h1>
+            <p class="text-xl text-gray-700 mb-8 max-w-3xl mx-auto animate__animated animate__fadeIn animate__delay-1s">
+                Your comprehensive resource for understanding food quality standards, certifications, and how to make informed choices as a consumer.
+            </p>
+            <div class="animate__animated animate__fadeInUp animate__delay-2s">
+                <button class="bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-full shadow-lg transition transform hover:scale-105 mr-4">
+                    <a href="https://ncert.nic.in/textbook/pdf/lehe105.pdf" target="_blank">Explore Guide</a>
+                </button>
+                <button class="bg-white hover:bg-gray-100 text-purple-600 font-medium py-3 px-6 rounded-full shadow-lg transition transform hover:scale-105">
+                    <a href="https://www.youtube.com/watch?v=GgzO5_YQDII&list=PLuZ86vZDT5-kjEBqTfzDExJWjC5Epvmnh" target="_blank">Watch Video</a>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+        <!-- Quality Indicators Section -->
+        <section class="mb-20 animate__animated animate__fadeIn">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Key Food Quality Indicators</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card 1 -->
+                <div class="food-card bg-white rounded-xl p-6 shadow-md transition duration-300 hover:shadow-xl">
+                    <div class="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-center mb-3">Freshness</h3>
+                    <p class="text-gray-600 text-center">Learn how to assess freshness through appearance, smell, texture, and expiration dates.</p>
+                </div>
+                
+                <!-- Card 2 -->
+                <div class="food-card bg-white rounded-xl p-6 shadow-md transition duration-300 hover:shadow-xl">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-center mb-3">Nutritional Value</h3>
+                    <p class="text-gray-600 text-center">Understand nutritional labels and how to identify truly healthy food options.</p>
+                </div>
+                
+                <!-- Card 3 -->
+                <div class="food-card bg-white rounded-xl p-6 shadow-md transition duration-300 hover:shadow-xl">
+                    <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-center mb-3">Certifications</h3>
+                    <p class="text-gray-600 text-center">Decode food certifications like Organic, Non-GMO, Fair Trade, and more.</p>
+                </div>
+                
+                <!-- Card 4 -->
+                <div class="food-card bg-white rounded-xl p-6 shadow-md transition duration-300 hover:shadow-xl">
+                    <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-center mb-3">Packaging</h3>
+                    <p class="text-gray-600 text-center">How packaging affects food quality and what to look for in sustainable options.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Food Safety Section -->
+        <section class="mb-20 bg-white bg-opacity-80 rounded-2xl p-8 shadow-lg backdrop-blur-sm">
+            <div class="flex flex-col lg:flex-row items-center">
+                <div class="lg:w-1/2 mb-8 lg:mb-0 lg:pr-8">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6">Food Safety Standards</h2>
+                    <p class="text-gray-700 mb-6">Food safety is a critical component of food quality. Learn about the standards that protect consumers and ensure the food you eat is safe.</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="text-gray-700">Proper handling and storage temperatures</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="text-gray-700">Cross-contamination prevention</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="text-gray-700">Hygiene practices in food preparation</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="text-gray-700">Recognizing foodborne illness symptoms</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lg:w-1/2">
+                    <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Food Safety" class="rounded-xl shadow-md w-full h-auto pulse-animation">
+                </div>
+            </div>
+        </section>
+
+        <!-- Certification Guide -->
+        <section class="mb-20">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Understanding Food Certifications</h2>
+            <div class="overflow-hidden rounded-xl shadow-lg">
+                <table class="min-w-full bg-white bg-opacity-90">
+                    <thead class="bg-purple-600 text-white">
+                        <tr>
+                            <th class="py-4 px-6 text-left">Certification</th>
+                            <th class="py-4 px-6 text-left">Meaning</th>
+                            <th class="py-4 px-6 text-left">What to Look For</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr class="hover:bg-purple-50 transition">
+                            <td class="py-4 px-6 font-medium">USDA Organic</td>
+                            <td class="py-4 px-6">At least 95% organic ingredients, no synthetic fertilizers/pesticides</td>
+                            <td class="py-4 px-6">Green and white USDA Organic seal</td>
+                        </tr>
+                        <tr class="hover:bg-purple-50 transition">
+                            <td class="py-4 px-6 font-medium">Non-GMO Project</td>
+                            <td class="py-4 px-6">Product has been verified to avoid GMO ingredients</td>
+                            <td class="py-4 px-6">Butterfly logo on packaging</td>
+                        </tr>
+                        <tr class="hover:bg-purple-50 transition">
+                            <td class="py-4 px-6 font-medium">Fair Trade</td>
+                            <td class="py-4 px-6">Ethical sourcing, fair wages for workers</td>
+                            <td class="py-4 px-6">Black and white or green Fair Trade logo</td>
+                        </tr>
+                        <tr class="hover:bg-purple-50 transition">
+                            <td class="py-4 px-6 font-medium">Gluten-Free</td>
+                            <td class="py-4 px-6">Contains less than 20ppm gluten</td>
+                            <td class="py-4 px-6">"Gluten-Free" claim with certification symbol</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Seasonal Food Guide -->
+        <section class="mb-20 bg-white bg-opacity-80 rounded-2xl p-8 shadow-lg backdrop-blur-sm">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Seasonal Food Quality Calendar</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                <!-- Spring -->
+                <div class="bg-rose-100 bg-opacity-70 rounded-xl p-4 transform transition hover:scale-105">
+                    <h3 class="text-xl font-semibold text-rose-800 mb-3">Spring</h3>
+                    <ul class="space-y-1 text-rose-700">
+                        <li>Asparagus</li>
+                        <li>Strawberries</li>
+                        <li>Peas</li>
+                        <li>Radishes</li>
+                        <li>Spinach</li>
+                    </ul>
+                </div>
+                <!-- Summer -->
+                <div class="bg-pink-100 bg-opacity-70 rounded-xl p-4 transform transition hover:scale-105">
+                    <h3 class="text-xl font-semibold text-pink-800 mb-3">Summer</h3>
+                    <ul class="space-y-1 text-pink-700">
+                        <li>Tomatoes</li>
+                        <li>Corn</li>
+                        <li>Berries</li>
+                        <li>Peaches</li>
+                        <li>Cucumbers</li>
+                    </ul>
+                </div>
+                <!-- Fall -->
+                <div class="bg-purple-100 bg-opacity-70 rounded-xl p-4 transform transition hover:scale-105">
+                    <h3 class="text-xl font-semibold text-purple-800 mb-3">Fall</h3>
+                    <ul class="space-y-1 text-purple-700">
+                        <li>Apples</li>
+                        <li>Pumpkins</li>
+                        <li>Squash</li>
+                        <li>Sweet Potatoes</li>
+                        <li>Brussels Sprouts</li>
+                    </ul>
+                </div>
+                <!-- Winter -->
+                <div class="bg-indigo-100 bg-opacity-70 rounded-xl p-4 transform transition hover:scale-105">
+                    <h3 class="text-xl font-semibold text-indigo-800 mb-3">Winter</h3>
+                    <ul class="space-y-1 text-indigo-700">
+                        <li>Citrus Fruits</li>
+                        <li>Kale</li>
+                        <li>Leeks</li>
+                        <li>Parsnips</li>
+                        <li>Pomegranates</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="text-center mt-6 text-gray-700">Seasonal produce is typically fresher, more nutritious, and often more affordable!</p>
+        </section>
+
+        <!-- Tips Section -->
+        <section class="mb-20">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Pro Tips for Assessing Food Quality</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-xl p-6 shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center">
+                        <span class="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center mr-3">1</span>
+                        Visual Inspection
+                    </h3>
+                    <p class="text-gray-700">Look for vibrant colors, uniform size (for produce), and absence of bruises or blemishes. Meat should have consistent coloring without gray areas.</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center">
+                        <span class="w-8 h-8 bg-pink-600 text-white rounded-full flex items-center justify-center mr-3">2</span>
+                        Smell Test
+                    </h3>
+                    <p class="text-gray-700">Fresh food should smell pleasant and characteristic of its type. Sour, musty, or "off" odors often indicate spoilage.</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center">
+                        <span class="w-8 h-8 bg-rose-600 text-white rounded-full flex items-center justify-center mr-3">3</span>
+                        Texture Check
+                    </h3>
+                    <p class="text-gray-700">Produce should feel firm but not hard. Meat should spring back when pressed. Avoid slimy or sticky surfaces.</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center">
+                        <span class="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center mr-3">4</span>
+                        Packaging Integrity
+                    </h3>
+                    <p class="text-gray-700">Check for intact seals, no punctures or leaks, and proper vacuum sealing where applicable. Bulging cans are a red flag.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="text-center py-12 px-4 bg-white bg-opacity-90 rounded-2xl shadow-xl">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">Become a Food Quality Expert!</h2>
+            <p class="text-xl text-gray-700 mb-8 max-w-2xl mx-auto">Download our comprehensive Food Quality Guide PDF for more in-depth information and printable checklists.</p>
+            <button class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-4 px-8 rounded-full shadow-lg transition transform hover:scale-105 animate__animated animate__pulse animate__infinite">
+                <a href="https://fssai.gov.in/cms/manuals-of-methods-of-analysis-for-various-food-products.php" target="_blank">Download Full Guide</a>
+            </button>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white bg-opacity-90 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <span class="text-xl font-bold gradient-text">Consumer Portal</span>
+                    <p class="text-gray-600 mt-1">Empowering consumers with knowledge</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-600 hover:text-purple-600 transition">Privacy Policy</a>
+                    <a href="#" class="text-gray-600 hover:text-purple-600 transition">Terms of Service</a>
+                    <a href="#" class="text-gray-600 hover:text-purple-600 transition">Contact Us</a>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-200 text-center text-gray-500">
+                <p>© 2023 Consumer Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple animation trigger on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateOnScroll = function() {
+                const elements = document.querySelectorAll('.animate__animated');
+                
+                elements.forEach(element => {
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const screenPosition = window.innerHeight / 1.3;
+                    
+                    if(elementPosition < screenPosition) {
+                        const animation = element.getAttribute('data-animation');
+                        element.classList.add(animation);
+                    }
+                });
+            };
+            
+            window.addEventListener('scroll', animateOnScroll);
+            animateOnScroll(); // Trigger on load for elements in view
+        });
+    </script>
+</body>
+</html>

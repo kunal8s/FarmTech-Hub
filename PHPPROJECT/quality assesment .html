@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FrameTech Hub - Produce Quality Evaluator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #ffffff, #e0e7ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .feature-icon {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        .input-field {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        .btn-primary {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        .result-card {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .image-preview-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .image-preview {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .remove-image {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 10px;
+        }
+        .dropzone-active {
+            border-color: #4ade80 !important;
+            background-color: rgba(74, 222, 128, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-r from-fuchsia-500 via-violet-800 to-cyan-400 min-h-screen w-full">
+    <!-- Navigation -->
+    <nav class="glass-card sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center">
+                    <a href="farmer-resources.html"><span class="text-2xl font-bold gradient-text">Farmers Portal</span></a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.php" class="text-white hover:text-gray-200 transition">Home</a>
+                    <a href="index.php#about" class="text-white hover:text-gray-200 transition">About</a>
+                    <a href="index.php#services" class="text-white hover:text-gray-200 transition">Services</a>
+                    <a href="index.php#blog" class="text-white hover:text-gray-200 transition">Blog</a>
+                    <a href="dashboard.php" class="text-white hover:text-gray-200 transition">Dashboard</a>
+                </div>
+                <div class="md:hidden">
+                    <!-- Mobile menu button -->
+                    <button class="text-white focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6 text-white">
+                Produce Quality Evaluator
+            </h1>
+            <p class="text-xl text-gray-100 mb-8 max-w-3xl mx-auto">
+                Our comprehensive quality assessment tools help you evaluate your harvest against industry standards.
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+        <!-- Features Section -->
+        <section class="mb-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Moisture Content -->
+                <div class="glass-card rounded-xl p-6 text-center">
+                    <div class="w-16 h-16 feature-icon rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-white">Moisture Content</h3>
+                    <p class="text-gray-200">Precise measurement of water content in your produce</p>
+                </div>
+                
+                <!-- Size Classification -->
+                <div class="glass-card rounded-xl p-6 text-center">
+                    <div class="w-16 h-16 feature-icon rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-white">Size Classification</h3>
+                    <p class="text-gray-200">Automated sorting by precise dimensional measurements</p>
+                </div>
+                
+                <!-- Color Grading -->
+                <div class="glass-card rounded-xl p-6 text-center">
+                    <div class="w-16 h-16 feature-icon rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-white">Color Grading</h3>
+                    <p class="text-gray-200">Advanced color spectrum analysis for quality assessment</p>
+                </div>
+                
+                <!-- Defect Detection -->
+                <div class="glass-card rounded-xl p-6 text-center">
+                    <div class="w-16 h-16 feature-icon rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-white">Defect Detection</h3>
+                    <p class="text-gray-200">AI-powered identification of blemishes and imperfections</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quality Assessment Tool -->
+        <section class="mb-16">
+            <div class="glass-card rounded-2xl p-8">
+                <h2 class="text-3xl font-bold text-white mb-8 text-center">Start Quality Assessment</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Input Form -->
+                    <div>
+                        <form id="qualityForm">
+                            <div class="mb-6">
+                                <label for="produceType" class="block text-white mb-2">Produce Type</label>
+                                <select id="produceType" class="w-full input-field text-white p-3 rounded-lg" required>
+                                    <option value="" class="bg-violet-800">Select produce type</option>
+                                    <option value="apples" class="bg-violet-800">Apples</option>
+                                    <option value="oranges" class="bg-violet-800">Oranges</option>
+                                    <option value="tomatoes" class="bg-violet-800">Tomatoes</option>
+                                    <option value="potatoes" class="bg-violet-800">Potatoes</option>
+                                    <option value="leafy_greens" class="bg-violet-800">Leafy Greens</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-white mb-2">Upload Images</label>
+                                <div id="dropzone" class="border-2 border-dashed border-white border-opacity-30 rounded-lg p-8 text-center cursor-pointer transition-all duration-200">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-white opacity-70 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                    </svg>
+                                    <p class="text-white opacity-70">Drag & drop images here or click to browse</p>
+                                    <p class="text-sm text-white opacity-50 mt-1">Supports JPG, PNG (max 10MB each)</p>
+                                    <input type="file" id="imageUpload" class="hidden" accept="image/*" multiple>
+                                </div>
+                                <div id="imagePreviews" class="image-preview-container mt-4"></div>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4 mb-6">
+                                <div>
+                                    <label for="batchSize" class="block text-white mb-2">Batch Size</label>
+                                    <input type="number" id="batchSize" class="w-full input-field text-white p-3 rounded-lg" placeholder="e.g. 100" min="1" required>
+                                </div>
+                                <div>
+                                    <label for="units" class="block text-white mb-2">Units</label>
+                                    <select id="units" class="w-full input-field text-white p-3 rounded-lg" required>
+                                        <option value="kg" class="bg-violet-800">kg</option>
+                                        <option value="lbs" class="bg-violet-800">lbs</option>
+                                        <option value="units" class="bg-violet-800">units</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" id="analyzeBtn" class="w-full btn-primary text-white font-bold py-3 px-6 rounded-lg text-lg flex items-center justify-center">
+                                <span id="analyzeText">Analyze Produce Quality</span>
+                                <span id="analyzeSpinner" class="hidden ml-2">
+                                    <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Results Preview -->
+                    <div>
+                        <div class="result-card rounded-xl p-6 h-full">
+                            <h3 class="text-xl font-semibold mb-4 text-white text-center">Quality Assessment Results</h3>
+                            
+                            <div id="resultsSection" class="space-y-4">
+                                <div class="text-center py-10">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-white opacity-50 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                    <p class="text-white opacity-70">Submit your produce details to see quality analysis results</p>
+                                </div>
+                            </div>
+                            
+                            <div id="overallScoreSection" class="hidden mt-8 bg-black bg-opacity-20 rounded-lg p-4">
+                                <h4 class="text-white font-medium mb-2">Overall Quality Score</h4>
+                                <div class="flex items-center">
+                                    <div id="overallScore" class="text-3xl font-bold text-white mr-3">0</div>
+                                    <div id="gradeText" class="text-sm text-white opacity-80"></div>
+                                </div>
+                                <div class="mt-2 text-xs text-white opacity-60">
+                                    Based on industry standards for selected produce type
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6">
+                                <canvas id="qualityChart"></canvas>
+                            </div>
+                            
+                            <button id="downloadReportBtn" class="hidden w-full mt-6 btn-primary text-white font-medium py-2 px-4 rounded-lg">
+                                Download Full Report
+                            </button>
+
+                            <button id="generateSampleBtn" class="w-full mt-4 btn-primary text-white font-medium py-2 px-4 rounded-lg">
+                                Generate Sample Data
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Additional Tools -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-white mb-8 text-center">More Agricultural Tools</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass-card rounded-xl p-6">
+                    <h3 class="text-xl font-semibold mb-3 text-white">Harvest Predictor</h3>
+                    <p class="text-gray-200 mb-4">Accurate yield forecasting based on weather and crop data</p>
+                    <button class="btn-primary text-white font-medium py-2 px-4 rounded-lg text-sm">
+                        Explore Tool
+                    </button>
+                </div>
+                <div class="glass-card rounded-xl p-6">
+                    <h3 class="text-xl font-semibold mb-3 text-white">Soil Analyzer</h3>
+                    <p class="text-gray-200 mb-4">Comprehensive soil health and nutrient analysis</p>
+                    <button class="btn-primary text-white font-medium py-2 px-4 rounded-lg text-sm">
+                        Explore Tool
+                    </button>
+                </div>
+                <div class="glass-card rounded-xl p-6">
+                    <h3 class="text-xl font-semibold mb-3 text-white">Irrigation Planner</h3>
+                    <p class="text-gray-200 mb-4">Optimize water usage for maximum crop yield</p>
+                    <button class="btn-primary text-white font-medium py-2 px-4 rounded-lg text-sm">
+                        Explore Tool
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass-card py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold gradient-text mb-4">FarmTech Hub</h3>
+                    <p class="text-gray-200">Innovative agricultural technology solutions for modern farming.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.php" class="text-gray-200 hover:text-white transition">Home</a></li>
+                        <li><a href="index.php#about" class="text-gray-200 hover:text-white transition">About</a></li>
+                        <li><a href="index.php#services" class="text-gray-200 hover:text-white transition">Services</a></li>
+                        <li><a href="index.php#blog" class="text-gray-200 hover:text-white transition">Blog</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Contact</h4>
+                    <ul class="space-y-2">
+                        <li class="text-gray-200">info@farmtechhub.com</li>
+                        <li class="text-gray-200">+1 (555) 123-4567</li>
+                        <li class="text-gray-200">123 Farm Tech Ave</li>
+                        <li class="text-gray-200">Agri Valley, CA 90210</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Subscribe</h4>
+                    <p class="text-gray-200 mb-3">Stay updated with our newsletter</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="flex-1 input-field text-white p-2 rounded-l-lg focus:outline-none">
+                        <button class="btn-primary text-white font-medium py-2 px-4 rounded-r-lg">
+                            Subscribe
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-white border-opacity-20 mt-8 pt-8 text-center text-gray-300">
+                <p>© 2023 FrameTech Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const dropzone = document.getElementById('dropzone');
+            const imageUpload = document.getElementById('imageUpload');
+            const imagePreviews = document.getElementById('imagePreviews');
+            const qualityForm = document.getElementById('qualityForm');
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            const analyzeText = document.getElementById('analyzeText');
+            const analyzeSpinner = document.getElementById('analyzeSpinner');
+            const resultsSection = document.getElementById('resultsSection');
+            const overallScoreSection = document.getElementById('overallScoreSection');
+            const overallScore = document.getElementById('overallScore');
+            const gradeText = document.getElementById('gradeText');
+            const downloadReportBtn = document.getElementById('downloadReportBtn');
+            const generateSampleBtn = document.getElementById('generateSampleBtn');
+            const produceTypeSelect = document.getElementById('produceType');
+            const batchSizeInput = document.getElementById('batchSize');
+            const unitsSelect = document.getElementById('units');
+            
+            // Chart initialization
+            const ctx = document.getElementById('qualityChart').getContext('2d');
+            let qualityChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Moisture', 'Size', 'Color', 'Defects', 'Freshness', 'Texture'],
+                    datasets: [{
+                        label: 'Quality Metrics',
+                        data: [0, 0, 0, 0, 0, 0],
+                        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                        borderColor: 'rgba(255, 255, 255, 0.8)',
+                        pointBackgroundColor: 'rgba(255, 255, 255, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(255, 255, 255, 0.8)'
+                    }]
+                },
+                options: {
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: 'rgba(255, 255, 255, 0.2)'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.2)'
+                            },
+                            pointLabels: {
+                                color: 'white'
+                            },
+                            ticks: {
+                                backdropColor: 'transparent',
+                                color: 'white',
+                                showLabelBackdrop: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: 'white'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Drag and drop functionality
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropzone.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropzone.addEventListener(eventName, highlight, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropzone.addEventListener(eventName, unhighlight, false);
+            });
+
+            function highlight() {
+                dropzone.classList.add('dropzone-active');
+            }
+
+            function unhighlight() {
+                dropzone.classList.remove('dropzone-active');
+            }
+
+            dropzone.addEventListener('drop', handleDrop, false);
+            dropzone.addEventListener('click', () => imageUpload.click());
+
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFiles(files);
+            }
+
+            imageUpload.addEventListener('change', function() {
+                handleFiles(this.files);
+            });
+
+            function handleFiles(files) {
+                [...files].forEach(file => {
+                    if (!file.type.match('image.*')) return;
+                    
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const preview = document.createElement('div');
+                        preview.className = 'image-preview';
+                        
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        
+                        const removeBtn = document.createElement('button');
+                        removeBtn.className = 'remove-image';
+                        removeBtn.innerHTML = '&times;';
+                        removeBtn.addEventListener('click', () => {
+                            preview.remove();
+                            if (imagePreviews.children.length === 0) {
+                                imagePreviews.style.display = 'none';
+                            }
+                        });
+                        
+                        preview.appendChild(img);
+                        preview.appendChild(removeBtn);
+                        imagePreviews.appendChild(preview);
+                        imagePreviews.style.display = 'grid';
+                    }
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            // Form submission
+            qualityForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Show loading state
+                analyzeText.textContent = 'Analyzing...';
+                analyzeSpinner.classList.remove('hidden');
+                analyzeBtn.disabled = true;
+                
+                // Simulate API call with timeout
+                setTimeout(() => {
+                    analyzeProduce();
+                    
+                    // Hide loading state
+                    analyzeText.textContent = 'Analyze Produce Quality';
+                    analyzeSpinner.classList.add('hidden');
+                    analyzeBtn.disabled = false;
+                }, 1500);
+            });
+
+            // Generate sample data
+            generateSampleBtn.addEventListener('click', function() {
+                // Set sample values
+                produceTypeSelect.value = ['apples', 'oranges', 'tomatoes', 'potatoes', 'leafy_greens'][Math.floor(Math.random() * 5)];
+                batchSizeInput.value = Math.floor(Math.random() * 500) + 50;
+                unitsSelect.value = ['kg', 'lbs', 'units'][Math.floor(Math.random() * 3)];
+                
+                // Trigger analysis
+                analyzeProduce();
+            });
+
+            // Analyze produce function
+            function analyzeProduce() {
+                const produceType = produceTypeSelect.value;
+                const batchSize = batchSizeInput.value;
+                const units = unitsSelect.value;
+                
+                if (!produceType || !batchSize) return;
+                
+                // Generate random quality metrics based on produce type
+                let moisture, size, color, defects, freshness, texture;
+                
+                switch(produceType) {
+                    case 'apples':
+                        moisture = 75 + Math.random() * 10;
+                        size = 80 + Math.random() * 15;
+                        color = 85 + Math.random() * 10;
+                        defects = 90 - Math.random() * 15;
+                        freshness = 88 + Math.random() * 7;
+                        texture = 82 + Math.random() * 13;
+                        break;
+                    case 'oranges':
+                        moisture = 70 + Math.random() * 15;
+                        size = 75 + Math.random() * 20;
+                        color = 80 + Math.random() * 15;
+                        defects = 85 - Math.random() * 20;
+                        freshness = 75 + Math.random() * 20;
+                        texture = 78 + Math.random() * 17;
+                        break;
+                    case 'tomatoes':
+                        moisture = 80 + Math.random() * 10;
+                        size = 85 + Math.random() * 10;
+                        color = 90 + Math.random() * 5;
+                        defects = 85 - Math.random() * 10;
+                        freshness = 80 + Math.random() * 15;
+                        texture = 75 + Math.random() * 20;
+                        break;
+                    case 'potatoes':
+                        moisture = 65 + Math.random() * 15;
+                        size = 70 + Math.random() * 25;
+                        color = 75 + Math.random() * 20;
+                        defects = 80 - Math.random() * 25;
+                        freshness = 70 + Math.random() * 25;
+                        texture = 65 + Math.random() * 30;
+                        break;
+                    case 'leafy_greens':
+                        moisture = 85 + Math.random() * 10;
+                        size = 75 + Math.random() * 20;
+                        color = 80 + Math.random() * 15;
+                        defects = 75 - Math.random() * 20;
+                        freshness = 85 + Math.random() * 10;
+                        texture = 70 + Math.random() * 25;
+                        break;
+                }
+                
+                // Ensure values are within 0-100 range
+                moisture = Math.max(0, Math.min(100, moisture));
+                size = Math.max(0, Math.min(100, size));
+                color = Math.max(0, Math.min(100, color));
+                defects = Math.max(0, Math.min(100, defects));
+                freshness = Math.max(0, Math.min(100, freshness));
+                texture = Math.max(0, Math.min(100, texture));
+                
+                // Calculate overall score (weighted average)
+                const overall = Math.round(
+                    (moisture * 0.15) + 
+                    (size * 0.2) + 
+                    (color * 0.2) + 
+                    (defects * 0.25) + 
+                    (freshness * 0.1) + 
+                    (texture * 0.1)
+                );
+                
+                // Update chart
+                qualityChart.data.datasets[0].data = [moisture, size, color, defects, freshness, texture];
+                qualityChart.update();
+                
+                // Update results display
+                resultsSection.innerHTML = `
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-white">Moisture Content</span>
+                            <span class="text-sm font-medium text-white">${Math.round(moisture)}% ${getQualityLabel(moisture)}</span>
+                        </div>
+                        <div class="w-full bg-white bg-opacity-20 rounded-full h-2">
+                            <div class="bg-green-400 h-2 rounded-full" style="width: ${moisture}%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-white">Size Consistency</span>
+                            <span class="text-sm font-medium text-white">${Math.round(size)}% ${getQualityLabel(size)}</span>
+                        </div>
+                        <div class="w-full bg-white bg-opacity-20 rounded-full h-2">
+                            <div class="bg-blue-400 h-2 rounded-full" style="width: ${size}%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-white">Color Grading</span>
+                            <span class="text-sm font-medium text-white">${Math.round(color)}% ${getQualityLabel(color)}</span>
+                        </div>
+                        <div class="w-full bg-white bg-opacity-20 rounded-full h-2">
+                            <div class="bg-purple-400 h-2 rounded-full" style="width: ${color}%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-white">Defect Detection</span>
+                            <span class="text-sm font-medium text-white">${Math.round(defects)}% ${getQualityLabel(defects)}</span>
+                        </div>
+                        <div class="w-full bg-white bg-opacity-20 rounded-full h-2">
+                            <div class="bg-yellow-400 h-2 rounded-full" style="width: ${defects}%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-white">Freshness</span>
+                            <span class="text-sm font-medium text-white">${Math.round(freshness)}% ${getQualityLabel(freshness)}</span>
+                        </div>
+                        <div class="w-full bg-white bg-opacity-20 rounded-full h-2">
+                            <div class="bg-cyan-400 h-2 rounded-full" style="width: ${freshness}%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-white">Texture</span>
+                            <span class="text-sm font-medium text-white">${Math.round(texture)}% ${getQualityLabel(texture)}</span>
+                        </div>
+                        <div class="w-full bg-white bg-opacity-20 rounded-full h-2">
+                            <div class="bg-pink-400 h-2 rounded-full" style="width: ${texture}%"></div>
+                        </div>
+                    </div>
+                `;
+                
+                // Update overall score
+                overallScore.textContent = overall;
+                gradeText.textContent = getGradeText(overall);
+                overallScoreSection.classList.remove('hidden');
+                downloadReportBtn.classList.remove('hidden');
+            }
+            
+               // Helper function to get grade text
+    function getGradeText(score) {
+        if (score >= 90) return 'Grade A+ (Exceptional Quality)';
+        if (score >= 80) return 'Grade A (Premium Quality)';
+        if (score >= 70) return 'Grade B (Good Quality)';
+        if (score >= 60) return 'Grade C (Average Quality)';
+        if (score >= 50) return 'Grade D (Below Average)';
+        return 'Grade F (Unacceptable)';
+    }
+    
+    // Download report functionality
+    downloadReportBtn.addEventListener('click', function() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        
+        // Add title
+        doc.setFontSize(20);
+        doc.setTextColor(100, 100, 255);
+        doc.text('Produce Quality Assessment Report', 105, 20, null, null, 'center');
+        
+        // Add produce details
+        doc.setFontSize(12);
+        doc.setTextColor(0, 0, 0);
+        doc.text(`Produce Type: ${produceTypeSelect.options[produceTypeSelect.selectedIndex].text}`, 20, 40);
+        doc.text(`Batch Size: ${batchSizeInput.value} ${unitsSelect.value}`, 20, 50);
+        
+        // Add quality metrics
+        doc.setFontSize(14);
+        doc.setTextColor(100, 100, 255);
+        doc.text('Quality Metrics:', 20, 70);
+        
+        doc.setFontSize(12);
+        doc.setTextColor(0, 0, 0);
+        const metrics = qualityChart.data.datasets[0].data;
+        const labels = qualityChart.data.labels;
+        
+        labels.forEach((label, index) => {
+            doc.text(`${label}: ${Math.round(metrics[index])}% (${getQualityLabel(metrics[index])})`, 30, 80 + (index * 10));
+        });
+        
+        // Add overall score
+        doc.setFontSize(14);
+        doc.setTextColor(100, 100, 255);
+        doc.text('Overall Quality Score:', 20, 150);
+        
+        doc.setFontSize(20);
+        doc.setTextColor(0, 150, 0);
+        doc.text(`${overallScore.textContent} - ${gradeText.textContent}`, 30, 165);
+        
+        // Add date
+        doc.setFontSize(10);
+        doc.setTextColor(100, 100, 100);
+        doc.text(`Report generated on: ${new Date().toLocaleDateString()}`, 105, 280, null, null, 'center');
+        
+        // Save the PDF
+        doc.save(`Quality_Report_${produceTypeSelect.value}_${new Date().toISOString().slice(0,10)}.pdf`);
+    });
+});
+
+</script>
+</body>
+</html>
