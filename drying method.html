@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Drying Techniques</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #6a11cb;
+            --secondary: #2575fc;
+            --accent: #ff5e62;
+            --text: #ffffff;
+            --glass: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-attachment: fixed;
+        }
+        
+        .background-blur {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(106, 17, 203, 0.6), rgba(37, 117, 252, 0.6));
+            backdrop-filter: blur(10px);
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 1s ease;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, #ddd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+            animation: fadeIn 1.5s ease;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #fff, #ddd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: var(--accent);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 94, 98, 0.4);
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 94, 98, 0.6);
+        }
+        
+        .techniques-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .technique-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .technique-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .technique-card:nth-child(1) { transition-delay: 0.1s; }
+        .technique-card:nth-child(2) { transition-delay: 0.2s; }
+        .technique-card:nth-child(3) { transition-delay: 0.3s; }
+        .technique-card:nth-child(4) { transition-delay: 0.4s; }
+        
+        .technique-card:hover {
+            transform: translateY(-10px) !important;
+            box-shadow: 0 15px 30px rgba(31, 38, 135, 0.5);
+        }
+        
+        .technique-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        
+        .technique-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .technique-card p {
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+        
+        .learn-more {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .learn-more:hover {
+            gap: 1rem;
+        }
+        
+        .comparison {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+        
+        .comparison.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            background: linear-gradient(to right, #fff, #ddd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+        
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        
+        th {
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .benefit-item {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+        }
+        
+        .benefit-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .benefit-item:nth-child(1) { transition-delay: 0.1s; }
+        .benefit-item:nth-child(2) { transition-delay: 0.2s; }
+        .benefit-item:nth-child(3) { transition-delay: 0.3s; }
+        .benefit-item:nth-child(4) { transition-delay: 0.4s; }
+        
+        .benefit-icon {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-top: 0.3rem;
+        }
+        
+        .benefit-content h4 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .benefit-content p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--glass-border);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-links a {
+            color: var(--text);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .techniques-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-blur"></div>
+    
+    <div class="container">
+        <header>
+            <div class="logo"><a href="food-processors.html">Food Processors Portal</a></div>
+            <nav>
+                <ul>
+                    <li><a href="index.php">Home</a></li>
+                    <li><a href="index.php#about">About</a></li>
+                    <li><a href="index.php#services">Services</a></li>
+                    <li><a href="index.php#blog">Blog</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <section class="hero">
+            <h1>Modern Drying Techniques</h1>
+            <p>Discover innovative methods for dehydrating foods while preserving maximum nutrients, flavor, and quality. Revolutionize your food preservation with cutting-edge technology.</p>
+            <a href="https://indianfarmer.net/uploads/230313.pdf" target="_blank" class="btn">Explore Methods</a>
+        </section>
+        
+        <section class="techniques">
+            <h2 class="section-title">Popular Drying Methods</h2>
+            <div class="techniques-grid">
+                <div class="technique-card">
+                    <div class="technique-icon">
+                        <i class="fas fa-wind floating"></i>
+                    </div>
+                    <h3>Freeze Drying</h3>
+                    <p>Removes moisture through sublimation under vacuum, preserving up to 97% of nutrients and maintaining original texture when rehydrated.</p>
+                    <a href="https://www.millrocktech.com/lyosight/lyobrary/what-is-freeze-drying/" target="_blank" class="learn-more">Learn more <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="technique-card">
+                    <div class="technique-icon">
+                        <i class="fas fa-sun floating"></i>
+                    </div>
+                    <h3>Spray Drying</h3>
+                    <p>Transforms liquid foods into powder by atomizing them into a hot gas stream, ideal for dairy products and instant beverages.</p>
+                    <a href="https://www.intechopen.com/chapters/58222" target="_blank" class="learn-more">Learn more <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="technique-card">
+                    <div class="technique-icon">
+                        <i class="fas fa-bolt floating"></i>
+                    </div>
+                    <h3>Microwave Drying</h3>
+                    <p>Uses microwave energy to remove moisture rapidly, reducing drying time by 50-90% compared to conventional methods.</p>
+                    <a href="https://www.sciencedirect.com/topics/agricultural-and-biological-sciences/microwave-drying" target="_blank" class="learn-more">Learn more <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="technique-card">
+                    <div class="technique-icon">
+                        <i class="fas fa-leaf floating"></i>
+                    </div>
+                    <h3>Osmotic Dehydration</h3>
+                    <p>Uses concentrated solutions to remove water from foods before final drying, preserving color and nutrients effectively.</p>
+                    <a href="https://www.sciencedirect.com/topics/agricultural-and-biological-sciences/osmotic-dehydration" target="_blank" class="learn-more">Learn more <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </section>
+        
+        <section class="comparison-section">
+            <h2 class="section-title">Technique Comparison</h2>
+            <div class="comparison">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Nutrient Retention</th>
+                            <th>Energy Efficiency</th>
+                            <th>Best For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Freeze Drying</td>
+                            <td>90-97%</td>
+                            <td>Low</td>
+                            <td>Fruits, vegetables, meats</td>
+                        </tr>
+                        <tr>
+                            <td>Spray Drying</td>
+                            <td>70-85%</td>
+                            <td>Medium</td>
+                            <td>Dairy, juices, coffee</td>
+                        </tr>
+                        <tr>
+                            <td>Microwave Drying</td>
+                            <td>80-90%</td>
+                            <td>High</td>
+                            <td>Herbs, grains, pasta</td>
+                        </tr>
+                        <tr>
+                            <td>Osmotic Dehydration</td>
+                            <td>85-95%</td>
+                            <td>Medium</td>
+                            <td>Fruits, vegetables</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        
+        <section class="benefits-section">
+            <h2 class="section-title">Key Benefits</h2>
+            <div class="benefits">
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="benefit-content">
+                        <h4>Nutrient Preservation</h4>
+                        <p>Modern methods retain significantly more vitamins and antioxidants compared to traditional drying.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="benefit-content">
+                        <h4>Extended Shelf Life</h4>
+                        <p>Properly dried foods can last for years without refrigeration while maintaining quality.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-weight"></i>
+                    </div>
+                    <div class="benefit-content">
+                        <h4>Reduced Weight</h4>
+                        <p>Removing moisture decreases weight by 70-90%, making storage and transport easier.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <div class="benefit-content">
+                        <h4>Color & Flavor Retention</h4>
+                        <p>Advanced techniques preserve natural colors and flavors better than conventional methods.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+        <p class="copyright">© 2023 Modern Drying Techniques. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        // Scroll animation trigger
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            
+            const cards = document.querySelectorAll('.technique-card, .comparison, .benefit-item');
+            cards.forEach(card => {
+                observer.observe(card);
+            });
+            
+            // Floating animation for hero elements
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                setTimeout(() => {
+                    hero.style.animation = 'none';
+                    void hero.offsetWidth; // Trigger reflow
+                    hero.style.animation = 'fadeIn 1.5s ease';
+                }, 1500);
+            }
+        });
+    </script>
+</body>
+</html>

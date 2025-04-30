@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Nutritional Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        .calculator-card {
+            backdrop-filter: blur(16px);
+            background: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #3b82f6, #10b981);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .input-highlight {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid #3b82f6;
+        }
+        .input-highlight:focus {
+            border-bottom: 2px solid #10b981;
+        }
+        .nutrient-bar {
+            transition: width 0.8s ease;
+        }
+        .animate-bounce-slow {
+            animation: bounce-slow 3s infinite;
+        }
+        @keyframes bounce-slow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="calculator-card w-full max-w-4xl p-8">
+        <h1 class="text-4xl font-bold text-center mb-8 gradient-text">Nutritional Calculator</h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Food Search -->
+            <div class="col-span-3">
+                <div class="relative">
+                    <input type="text" id="food-search" placeholder="Search for a food..." 
+                           class="w-full p-4 text-lg border-0 bg-gray-50 rounded-lg input-highlight focus:outline-none focus:ring-2 focus:ring-blue-200">
+                    <div id="search-results" class="absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg hidden max-h-60 overflow-y-auto"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Basic Info -->
+            <div class="bg-blue-50 p-6 rounded-xl">
+                <h3 class="text-xl font-semibold mb-4 text-blue-800">Basic Information</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Serving Size</label>
+                        <div class="flex">
+                            <input type="number" id="serving-size" value="100" 
+                                   class="flex-1 p-2 border-0 bg-white rounded-l-lg input-highlight focus:outline-none">
+                            <select id="serving-unit" class="p-2 bg-white rounded-r-lg border-0 focus:outline-none">
+                                <option value="g">g</option>
+                                <option value="ml">ml</option>
+                                <option value="oz">oz</option>
+                                <option value="cup">cup</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Number of Servings</label>
+                        <input type="number" id="serving-count" value="1" min="0.1" step="0.1" 
+                               class="w-full p-2 border-0 bg-white rounded-lg input-highlight focus:outline-none">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Macronutrients -->
+            <div class="bg-green-50 p-6 rounded-xl">
+                <h3 class="text-xl font-semibold mb-4 text-green-800">Macronutrients</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Calories (kcal)</label>
+                        <input type="number" id="calories" readonly 
+                               class="w-full p-2 bg-gray-100 rounded-lg font-medium">
+                    </div>
+                    <div class="grid grid-cols-3 gap-2">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Protein (g)</label>
+                            <input type="number" id="protein" readonly class="w-full p-2 bg-gray-100 rounded-lg text-xs">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Carbs (g)</label>
+                            <input type="number" id="carbs" readonly class="w-full p-2 bg-gray-100 rounded-lg text-xs">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Fat (g)</label>
+                            <input type="number" id="fat" readonly class="w-full p-2 bg-gray-100 rounded-lg text-xs">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Micronutrients -->
+            <div class="bg-purple-50 p-6 rounded-xl">
+                <h3 class="text-xl font-semibold mb-4 text-purple-800">Micronutrients</h3>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-xs font-medium text-gray-700 mb-1">Fiber (g)</label>
+                        <input type="number" id="fiber" readonly class="w-full p-2 bg-gray-100 rounded-lg text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-700 mb-1">Sugar (g)</label>
+                        <input type="number" id="sugar" readonly class="w-full p-2 bg-gray-100 rounded-lg text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-700 mb-1">Calcium (mg)</label>
+                        <input type="number" id="calcium" readonly class="w-full p-2 bg-gray-100 rounded-lg text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-700 mb-1">Iron (mg)</label>
+                        <input type="number" id="iron" readonly class="w-full p-2 bg-gray-100 rounded-lg text-xs">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nutrition Bars -->
+        <div class="mb-8">
+            <h3 class="text-xl font-semibold mb-4 text-gray-800">Nutrition Distribution</h3>
+            <div class="space-y-3">
+                <div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-medium text-blue-700">Protein</span>
+                        <span id="protein-percent" class="text-sm font-medium text-blue-700">0%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        <div id="protein-bar" class="nutrient-bar bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-medium text-green-700">Carbohydrates</span>
+                        <span id="carbs-percent" class="text-sm font-medium text-green-700">0%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        <div id="carbs-bar" class="nutrient-bar bg-green-600 h-2.5 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-medium text-yellow-700">Fat</span>
+                        <span id="fat-percent" class="text-sm font-medium text-yellow-700">0%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        <div id="fat-bar" class="nutrient-bar bg-yellow-600 h-2.5 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nutrition Chart -->
+        <div class="mb-8">
+            <h3 class="text-xl font-semibold mb-4 text-gray-800">Nutrition Chart</h3>
+            <div class="bg-white p-4 rounded-xl">
+                <canvas id="nutritionChart" height="200"></canvas>
+            </div>
+        </div>
+
+        <!-- Daily Values -->
+        <div class="bg-gray-50 p-6 rounded-xl mb-8">
+            <h3 class="text-xl font-semibold mb-4 text-gray-800">Daily Values (%DV)</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-white p-3 rounded-lg text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2 animate-bounce-slow">
+                        <span id="protein-dv" class="text-blue-600 font-bold">0%</span>
+                    </div>
+                    <p class="text-sm font-medium">Protein</p>
+                </div>
+                <div class="bg-white p-3 rounded-lg text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2 animate-bounce-slow">
+                        <span id="carbs-dv" class="text-green-600 font-bold">0%</span>
+                    </div>
+                    <p class="text-sm font-medium">Carbs</p>
+                </div>
+                <div class="bg-white p-3 rounded-lg text-center">
+                    <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-2 animate-bounce-slow">
+                        <span id="fat-dv" class="text-yellow-600 font-bold">0%</span>
+                    </div>
+                    <p class="text-sm font-medium">Fat</p>
+                </div>
+                <div class="bg-white p-3 rounded-lg text-center">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-2 animate-bounce-slow">
+                        <span id="fiber-dv" class="text-purple-600 font-bold">0%</span>
+                    </div>
+                    <p class="text-sm font-medium">Fiber</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Save & Share -->
+        <div class="flex justify-center space-x-4">
+            <button id="save-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-full shadow-lg transition transform hover:scale-105">
+                Save Nutrition Data
+            </button>
+            <button id="share-btn" class="bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-full shadow-lg transition transform hover:scale-105">
+                Share Results
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Sample food database
+        const foodDatabase = [
+            { name: "Apple", calories: 52, protein: 0.3, carbs: 14, fat: 0.2, fiber: 2.4, sugar: 10, calcium: 6, iron: 0.1 },
+            { name: "Banana", calories: 89, protein: 1.1, carbs: 22.8, fat: 0.3, fiber: 2.6, sugar: 12.2, calcium: 5, iron: 0.3 },
+            { name: "Chicken Breast", calories: 165, protein: 31, carbs: 0, fat: 3.6, fiber: 0, sugar: 0, calcium: 15, iron: 1 },
+            { name: "Brown Rice", calories: 111, protein: 2.6, carbs: 23, fat: 0.9, fiber: 1.8, sugar: 0.4, calcium: 10, iron: 0.4 },
+            { name: "Broccoli", calories: 34, protein: 2.8, carbs: 6.6, fat: 0.4, fiber: 2.6, sugar: 1.7, calcium: 47, iron: 0.7 },
+            { name: "Salmon", calories: 208, protein: 20, carbs: 0, fat: 13, fiber: 0, sugar: 0, calcium: 9, iron: 0.3 },
+            { name: "Egg", calories: 143, protein: 12.6, carbs: 0.7, fat: 9.5, fiber: 0, sugar: 0.4, calcium: 56, iron: 1.8 },
+            { name: "Almonds", calories: 579, protein: 21, carbs: 21.6, fat: 49.9, fiber: 12.5, sugar: 4.4, calcium: 269, iron: 3.7 }
+        ];
+
+        // DOM Elements
+        const foodSearch = document.getElementById('food-search');
+        const searchResults = document.getElementById('search-results');
+        const servingSize = document.getElementById('serving-size');
+        const servingUnit = document.getElementById('serving-unit');
+        const servingCount = document.getElementById('serving-count');
+        
+        // Nutrition inputs
+        const caloriesInput = document.getElementById('calories');
+        const proteinInput = document.getElementById('protein');
+        const carbsInput = document.getElementById('carbs');
+        const fatInput = document.getElementById('fat');
+        const fiberInput = document.getElementById('fiber');
+        const sugarInput = document.getElementById('sugar');
+        const calciumInput = document.getElementById('calcium');
+        const ironInput = document.getElementById('iron');
+        
+        // Percent elements
+        const proteinPercent = document.getElementById('protein-percent');
+        const carbsPercent = document.getElementById('carbs-percent');
+        const fatPercent = document.getElementById('fat-percent');
+        
+        // Bar elements
+        const proteinBar = document.getElementById('protein-bar');
+        const carbsBar = document.getElementById('carbs-bar');
+        const fatBar = document.getElementById('fat-bar');
+        
+        // DV elements
+        const proteinDv = document.getElementById('protein-dv');
+        const carbsDv = document.getElementById('carbs-dv');
+        const fatDv = document.getElementById('fat-dv');
+        const fiberDv = document.getElementById('fiber-dv');
+        
+        // Buttons
+        const saveBtn = document.getElementById('save-btn');
+        const shareBtn = document.getElementById('share-btn');
+        
+        // Chart
+        let nutritionChart;
+
+        // Current selected food
+        let currentFood = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize chart
+            initChart();
+            
+            // Set up event listeners
+            foodSearch.addEventListener('input', handleFoodSearch);
+            servingSize.addEventListener('change', calculateNutrition);
+            servingUnit.addEventListener('change', calculateNutrition);
+            servingCount.addEventListener('change', calculateNutrition);
+            
+            saveBtn.addEventListener('click', saveNutritionData);
+            shareBtn.addEventListener('click', shareResults);
+            
+            // Load default food (Apple)
+            selectFood(foodDatabase[0]);
+        });
+
+        function handleFoodSearch() {
+            const searchTerm = foodSearch.value.toLowerCase();
+            if (searchTerm.length < 2) {
+                searchResults.classList.add('hidden');
+                return;
+            }
+            
+            const results = foodDatabase.filter(food => 
+                food.name.toLowerCase().includes(searchTerm)
+            );
+            
+            displaySearchResults(results);
+        }
+
+        function displaySearchResults(results) {
+            searchResults.innerHTML = '';
+            
+            if (results.length === 0) {
+                const noResult = document.createElement('div');
+                noResult.className = 'p-3 text-gray-500';
+                noResult.textContent = 'No foods found';
+                searchResults.appendChild(noResult);
+            } else {
+                results.forEach(food => {
+                    const resultItem = document.createElement('div');
+                    resultItem.className = 'p-3 hover:bg-gray-100 cursor-pointer border-b border-gray-100';
+                    resultItem.textContent = food.name;
+                    resultItem.addEventListener('click', () => {
+                        selectFood(food);
+                        searchResults.classList.add('hidden');
+                        foodSearch.value = food.name;
+                    });
+                    searchResults.appendChild(resultItem);
+                });
+            }
+            
+            searchResults.classList.remove('hidden');
+        }
+
+        function selectFood(food) {
+            currentFood = food;
+            calculateNutrition();
+        }
+
+        function calculateNutrition() {
+            if (!currentFood) return;
+            
+            // Calculate based on serving size and count
+            const size = parseFloat(servingSize.value) || 100;
+            const count = parseFloat(servingCount.value) || 1;
+            const unit = servingUnit.value;
+            
+            // For simplicity, we'll assume all values are per 100g
+            // In a real app, you'd have conversion factors for different units
+            const factor = size / 100 * count;
+            
+            // Calculate nutrients
+            const calories = Math.round(currentFood.calories * factor);
+            const protein = (currentFood.protein * factor).toFixed(1);
+            const carbs = (currentFood.carbs * factor).toFixed(1);
+            const fat = (currentFood.fat * factor).toFixed(1);
+            const fiber = (currentFood.fiber * factor).toFixed(1);
+            const sugar = (currentFood.sugar * factor).toFixed(1);
+            const calcium = (currentFood.calcium * factor).toFixed(1);
+            const iron = (currentFood.iron * factor).toFixed(1);
+            
+            // Update inputs
+            caloriesInput.value = calories;
+            proteinInput.value = protein;
+            carbsInput.value = carbs;
+            fatInput.value = fat;
+            fiberInput.value = fiber;
+            sugarInput.value = sugar;
+            calciumInput.value = calcium;
+            ironInput.value = iron;
+            
+            // Calculate macronutrient percentages
+            const proteinCal = protein * 4;
+            const carbsCal = carbs * 4;
+            const fatCal = fat * 9;
+            const totalCal = proteinCal + carbsCal + fatCal;
+            
+            const proteinPct = totalCal > 0 ? Math.round(proteinCal / totalCal * 100) : 0;
+            const carbsPct = totalCal > 0 ? Math.round(carbsCal / totalCal * 100) : 0;
+            const fatPct = totalCal > 0 ? Math.round(fatCal / totalCal * 100) : 0;
+            
+            // Update percentages
+            proteinPercent.textContent = `${proteinPct}%`;
+            carbsPercent.textContent = `${carbsPct}%`;
+            fatPercent.textContent = `${fatPct}%`;
+            
+            // Update bars
+            proteinBar.style.width = `${proteinPct}%`;
+            carbsBar.style.width = `${carbsPct}%`;
+            fatBar.style.width = `${fatPct}%`;
+            
+            // Calculate daily values (based on 2000 calorie diet)
+            proteinDv.textContent = `${Math.round(protein / 50 * 100)}%`;
+            carbsDv.textContent = `${Math.round(carbs / 300 * 100)}%`;
+            fatDv.textContent = `${Math.round(fat / 65 * 100)}%`;
+            fiberDv.textContent = `${Math.round(fiber / 25 * 100)}%`;
+            
+            // Update chart
+            updateChart(protein, carbs, fat, fiber, sugar);
+        }
+
+        function initChart() {
+            const ctx = document.getElementById('nutritionChart').getContext('2d');
+            nutritionChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Protein', 'Carbs', 'Fat', 'Fiber', 'Sugar'],
+                    datasets: [{
+                        label: 'Nutrition (g)',
+                        data: [0, 0, 0, 0, 0],
+                        backgroundColor: [
+                            'rgba(59, 130, 246, 0.7)',
+                            'rgba(16, 185, 129, 0.7)',
+                            'rgba(234, 179, 8, 0.7)',
+                            'rgba(139, 92, 246, 0.7)',
+                            'rgba(244, 63, 94, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(59, 130, 246, 1)',
+                            'rgba(16, 185, 129, 1)',
+                            'rgba(234, 179, 8, 1)',
+                            'rgba(139, 92, 246, 1)',
+                            'rgba(244, 63, 94, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateChart(protein, carbs, fat, fiber, sugar) {
+            nutritionChart.data.datasets[0].data = [protein, carbs, fat, fiber, sugar];
+            nutritionChart.update();
+        }
+
+        function saveNutritionData() {
+            if (!currentFood) {
+                alert('Please select a food first');
+                return;
+            }
+            
+            // In a real app, you would save to localStorage or a database
+            const nutritionData = {
+                food: currentFood.name,
+                calories: caloriesInput.value,
+                protein: proteinInput.value,
+                carbs: carbsInput.value,
+                fat: fatInput.value,
+                fiber: fiberInput.value,
+                sugar: sugarInput.value,
+                calcium: calciumInput.value,
+                iron: ironInput.value,
+                servingSize: servingSize.value + servingUnit.value,
+                servings: servingCount.value
+            };
+            
+            console.log('Saved nutrition data:', nutritionData);
+            alert(`Nutrition data for ${currentFood.name} saved!`);
+        }
+
+        function shareResults() {
+            if (!currentFood) {
+                alert('Please select a food first');
+                return;
+            }
+            
+            // In a real app, you would implement actual sharing functionality
+            const shareText = `Nutrition facts for ${currentFood.name}:
+- Calories: ${caloriesInput.value} kcal
+- Protein: ${proteinInput.value}g (${proteinDv.textContent} DV)
+- Carbs: ${carbsInput.value}g (${carbsDv.textContent} DV)
+- Fat: ${fatInput.value}g (${fatDv.textContent} DV)
+- Fiber: ${fiberInput.value}g (${fiberDv.textContent} DV)`;
+            
+            console.log('Share text:', shareText);
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: `${currentFood.name} Nutrition Facts`,
+                    text: shareText
+                }).catch(err => {
+                    console.log('Error sharing:', err);
+                    alert('Sharing failed. Here are the results:\n\n' + shareText);
+                });
+            } else {
+                alert('Here are the results:\n\n' + shareText + '\n\n(Copy this text to share)');
+            }
+        }
+    </script>
+</body>
+</html>
